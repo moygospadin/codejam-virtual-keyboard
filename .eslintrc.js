@@ -1,4 +1,5 @@
 module.exports = {
+    "extends": "airbnb-base",
     "env": {
         "browser": true,
         "es6": true
@@ -12,6 +13,5 @@ module.exports = {
         "ecmaVersion": 2018,
         "sourceType": "module"
     },
-    "rules": {
-    }
+    "rules": {}
 };

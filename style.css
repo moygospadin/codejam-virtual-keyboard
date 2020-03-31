@@ -1,0 +1,46 @@
+textarea {
+    width: 700px;
+    height: 100px;
+    resize: none;
+}
+
+.active {
+    color: red;
+}
+
+.language {
+    margin: 1% 50%;
+}
+
+.textarea {
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.key-def {
+    margin: 3px;
+    padding: 10px 25px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+#keyboard {
+    width: 1000px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+}
+
+div[data="32"] {
+    padding: 10px 132px;
+}
+
+div[data="16"] {
+    padding: 10px 46px;
+}
+
+div[data="220"],
+div[data="13"] {
+    padding: 10px 52px;
+}
