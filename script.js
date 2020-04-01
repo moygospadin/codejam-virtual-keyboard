@@ -1,10 +1,9 @@
-import { keyboardKeys, engKeys /*, engKeysUpperCase, engKeysShift, rusKeys, rusKeysUpperCase, rusKeysShift, specialKeys, specialKeysWidth*/ } from './keyboard.js';
+import { keyboardKeys, engKeys, engKeysUpperCase, engKeysShift /*, rusKeys, rusKeysUpperCase, rusKeysShift, specialKeys, specialKeysWidth*/ } from './keyboard.js';
 window.onload = function() {
     const textarea = '<div class="textarea"><textarea id="text" name="name" rows="8" cols="80" readonly></textarea></div>';
     const keyboard = '<div id="keyboard"></div>';
     const languageP = '<p class="language">Eng</p>';
     const body = document.querySelector('body');
-
 
     body.insertAdjacentHTML('afterbegin', keyboard);
     body.insertAdjacentHTML('afterbegin', languageP);
@@ -24,41 +23,198 @@ window.onload = function() {
     }
     initKeyboad();
 
+
+
+
+
+
+
     document.addEventListener('keydown', (event) => {
-        // event.key
-        // console.log(event);
+
         let element = document.querySelector('div[data="' + `${event.keyCode}` + '"]');
-        // console.log(element);
-        // console.log(event.key);
+
         element.classList.add('active');
-        if (event.key == "Backspace") {
-            console.log("21");
-            backSpace();
-        } else
-            document.getElementById('text').value += event.key;
+
+        switch (event.key) {
+            case 'ArrowDown':
+                document.getElementById('text').value += '↓';
+                break;
+            case 'ArrowUp':
+                document.getElementById('text').value += '↑';
+                break;
+            case 'ArrowLeft':
+                document.getElementById('text').value += '←';
+                break;
+            case 'ArrowRight':
+                document.getElementById('text').value += '→';
+                break;
+            case 'Backspace':
+
+                backSpace();
+                break;
+            case 'CapsLock':
+                CapsLock(element);
+
+                break;
+            case 'Shift':
+
+                Shift(engKeysShift);
+                break;
+            default:
+                console.log(element);
+                document.getElementById('text').value += element.innerHTML;
+                break;
+        }
+
     });
     document.addEventListener('keyup', (event) => {
+        switch (event.key) {
+            case 'ArrowDown':
+                document.getElementById('text').value += '';
+                break;
+            case 'ArrowUp':
+                document.getElementById('text').value += '';
+                break;
+            case 'ArrowLeft':
+                document.getElementById('text').value += '';
+                break;
+            case 'ArrowRight':
+                document.getElementById('text').value += '';
+                break;
+            case 'Backspace':
+                break;
+
+            case 'Shift':
+
+                Shift(engKeys);
+                break;
+            default:
+                console.log(event.key);
+
+                break;
+        }
+
         let element = document.querySelector('div[data="' + `${event.keyCode}` + '"]');
+        console.log(element);
         element.classList.remove('active');
     });
-    const divKey = document.querySelectorAll('.key-def');
 
-    divKey.forEach(elem => {
-        elem.addEventListener('click', (event) => {
-            // console.log("!", event.target.innerHTML, "!");
-            if (event.target.innerHTML == "Backspace") {
-                console.log("21");
-                backSpace();
-            } else
-                document.getElementById('text').value += (event.target.innerHTML);
 
-        });
+    /*-------------------------------Mouse------------------------------------------------ */
+
+    document.addEventListener('mousedown', (event) => {
+
+
+        if (event.target.classList.value == "key-def" || event.target.classList.value == "key-def activeShift") {
+
+            console.log(event.target.innerHTML);
+
+            switch (event.target.innerHTML) {
+
+                case 'Backspace':
+                    backSpace();
+                    break;
+
+                case 'Shift':
+
+                    Shift(engKeysShift);
+                    event.target.classList.add('active');
+                    break;
+
+                case 'Caps Lock':
+                    console.log("dawdwa");
+
+                    CapsLock(event.target);
+                    event.target.classList.add('active');
+
+                    break;
+                default:
+                    console.log(event.target);
+                    document.getElementById('text').value += (event.target.innerHTML);
+                    event.target.classList.add('active');
+                    break;
+            }
+
+
+
+
+        }
+
+    });
+
+    event.target.addEventListener('mouseout', (event) => {
+
+        switch (event.target.innerHTML) {
+
+            case 'Shift':
+
+                Shift(engKeys);
+
+                break;
+            default:
+
+                break;
+        }
+
+        event.target.classList.remove('active');
+    });
+
+    event.target.addEventListener('mouseup', (event) => {
+
+        switch (event.target.innerHTML) {
+
+            case 'Shift':
+
+                Shift(engKeys);
+                break;
+            default:
+
+                break;
+        }
+
+        event.target.classList.remove('active');
     });
 
 
+
+
+
+
+    /*Функции*/
     function backSpace() {
-        // console.log("212");
+
         document.getElementById('text').value = document.getElementById('text').value.slice(0, -1);
 
     }
+
+
+    function CapsLock(element) {
+        const word = document.querySelector('div[data="65"]');
+        console.log("word", word);
+
+        if (word.innerHTML == "A") {
+            keysContent(engKeys);
+            element.classList.remove('activeShift');
+        } else {
+            keysContent(engKeysUpperCase);
+            element.classList.add('activeShift');
+        }
+    }
+
+    function Shift(Keys) {
+
+        keysContent(Keys);
+    }
+
+
+    const keys = document.querySelectorAll('#keyboard div');
+    const keysContent = (langKeys) => {
+        let i = 0;
+        keys.forEach((el) => {
+            el.innerText = langKeys[i];
+            i++;
+        });
+    }
+
+
 }
