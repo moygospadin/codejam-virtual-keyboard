@@ -1,4 +1,13 @@
-import { keyboardKeys, engKeys, engKeysUpperCase, engKeysShift /*, rusKeys, rusKeysUpperCase, rusKeysShift, specialKeys, specialKeysWidth*/ } from './keyboard.js';
+import {
+    keyboardKeys,
+    engKeys,
+    engKeysUpperCase,
+    engKeysShift,
+    rusKeys,
+    rusKeysUpperCase,
+    rusKeysShift
+
+} from './keyboard.js';
 window.onload = function() {
     const textarea = '<div class="textarea"><textarea id="text" name="name" rows="8" cols="80" readonly></textarea></div>';
     const keyboard = '<div id="keyboard"></div>';
@@ -26,67 +35,84 @@ window.onload = function() {
 
 
 
-
+    var timeStamp = 0;
 
 
     document.addEventListener('keydown', (event) => {
 
+        console.log("down", event);
         let element = document.querySelector('div[data="' + `${event.keyCode}` + '"]');
 
-        element.classList.add('active');
+        if ((event.key == "Shift" && event.altKey) || (event.key == "Alt" && event.shiftKey)) {
+            let slovo = document.querySelector('div[data="81"]').innerHTML;
+            if (slovo == "q" || slovo == "Q")
+                keysContent(rusKeys);
+            else keysContent(engKeys);
+        } else {
 
+            element.classList.add('active');
+
+            switch (event.key) {
+                case 'ArrowDown':
+                    document.getElementById('text').value += '↓';
+                    break;
+                case 'ArrowUp':
+                    document.getElementById('text').value += '↑';
+                    break;
+                case 'ArrowLeft':
+                    document.getElementById('text').value += '←';
+                    break;
+                case 'ArrowRight':
+                    document.getElementById('text').value += '→';
+                    break;
+                case 'CapsLock':
+
+
+                    break;
+                case 'Backspace':
+
+                    backSpace();
+                    break;
+
+                case 'Shift':
+                    Shift();
+
+                    break;
+                default:
+
+                    document.getElementById('text').value += element.innerHTML;
+                    break;
+            }
+        }
+
+    });
+    document.addEventListener('keyup', (event) => {
+
+        console.log("up", event);
+
+        let element = document.querySelector('div[data="' + `${event.keyCode}` + '"]');
         switch (event.key) {
             case 'ArrowDown':
-                document.getElementById('text').value += '↓';
+                document.getElementById('text').value += '';
                 break;
             case 'ArrowUp':
-                document.getElementById('text').value += '↑';
+                document.getElementById('text').value += '';
                 break;
             case 'ArrowLeft':
-                document.getElementById('text').value += '←';
+                document.getElementById('text').value += '';
                 break;
             case 'ArrowRight':
-                document.getElementById('text').value += '→';
+                document.getElementById('text').value += '';
                 break;
             case 'Backspace':
-
-                backSpace();
                 break;
             case 'CapsLock':
                 CapsLock(element);
 
                 break;
             case 'Shift':
+                Shift();
 
-                Shift(engKeysShift);
-                break;
-            default:
-                console.log(element);
-                document.getElementById('text').value += element.innerHTML;
-                break;
-        }
-
-    });
-    document.addEventListener('keyup', (event) => {
-        switch (event.key) {
-            case 'ArrowDown':
-                document.getElementById('text').value += '';
-                break;
-            case 'ArrowUp':
-                document.getElementById('text').value += '';
-                break;
-            case 'ArrowLeft':
-                document.getElementById('text').value += '';
-                break;
-            case 'ArrowRight':
-                document.getElementById('text').value += '';
-                break;
-            case 'Backspace':
-                break;
-
-            case 'Shift':
-
-                Shift(engKeys);
                 break;
             default:
                 console.log(event.key);
@@ -94,9 +120,10 @@ window.onload = function() {
                 break;
         }
 
-        let element = document.querySelector('div[data="' + `${event.keyCode}` + '"]');
-        console.log(element);
+
+
         element.classList.remove('active');
+
     });
 
 
@@ -106,7 +133,7 @@ window.onload = function() {
 
 
         if (event.target.classList.value == "key-def" || event.target.classList.value == "key-def activeShift") {
-
+            event.target.classList.add('active');
             console.log(event.target.innerHTML);
 
             switch (event.target.innerHTML) {
@@ -117,21 +144,21 @@ window.onload = function() {
 
                 case 'Shift':
 
-                    Shift(engKeysShift);
-                    event.target.classList.add('active');
+                    Shift();
+
                     break;
 
                 case 'Caps Lock':
                     console.log("dawdwa");
 
                     CapsLock(event.target);
-                    event.target.classList.add('active');
+
 
                     break;
                 default:
                     console.log(event.target);
                     document.getElementById('text').value += (event.target.innerHTML);
-                    event.target.classList.add('active');
+
                     break;
             }
 
@@ -148,7 +175,7 @@ window.onload = function() {
 
             case 'Shift':
 
-                Shift(engKeys);
+
 
                 break;
             default:
@@ -165,7 +192,7 @@ window.onload = function() {
 
             case 'Shift':
 
-                Shift(engKeys);
+
                 break;
             default:
 
@@ -201,20 +228,65 @@ window.onload = function() {
         }
     }
 
-    function Shift(Keys) {
+    function Shift() {
 
-        keysContent(Keys);
+        let slovo = document.querySelector('div[data="81"]').innerHTML;
+
+        switch (slovo) {
+            case "q":
+                keysContent(engKeysShift);
+                break;
+            case "Q":
+                keysContent(engKeys);
+                break;
+
+            case "й":
+                keysContent(rusKeysShift);
+                break;
+
+            case "Й":
+                keysContent(rusKeys);
+                break;
+
+            default:
+                break;
+        }
     }
 
 
     const keys = document.querySelectorAll('#keyboard div');
     const keysContent = (langKeys) => {
-        let i = 0;
-        keys.forEach((el) => {
-            el.innerText = langKeys[i];
-            i++;
-        });
-    }
+            let i = 0;
+            keys.forEach((el) => {
+                el.innerText = langKeys[i];
+                i++;
+            });
+        }
+        /*переключение языка*/
+
+    // document.onkeydown = function(e) {
+    //     console.log(e.keyCode);
 
 
+
+    //     if (e.shiftKey && e.altKey) {
+    //         let slovo = document.querySelector('div[data="81"]').innerHTML;
+    //         if (slovo == "q" || slovo == "Q")
+    //             keysContent(rusKeys);
+    //         else keysContent(engKeys);
+
+
+    //     } else
+    //     if (e.shiftKey) {
+    //         console.log(e);
+    //         Shift();
+    //     }
+    //     return true;
+
+    // }
+
+
+
+
+    /* ************END*********** */
 }
