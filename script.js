@@ -63,6 +63,8 @@ window.onload = function() {
         element.classList.toggle('active');
 
         switch (event.key) {
+            case 'AltGraph':
+                break;
             case 'Enter':
                 document.getElementById('text').value += '\n';
                 break;
