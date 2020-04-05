@@ -6,21 +6,22 @@ import {
     rusKeys,
     rusKeysUpperCase,
     rusKeysShift
-
 } from './keyboard.js';
+
+
 window.onload = function() {
-    const textarea = '<div class="textarea"><textarea id="text" name="name" rows="8" cols="80" readonly></textarea></div>';
+
+    const textarea = '<div class="textarea"><textarea id="text" name="name" rows="8"  readonly cols="80"></textarea></div>';
     const keyboard = '<div id="keyboard"></div>';
-    const languageP = '<p class="language">Eng</p>';
+    const languageP = '<p class="language">eng</p>';
     const body = document.querySelector('body');
 
     body.insertAdjacentHTML('afterbegin', keyboard);
     body.insertAdjacentHTML('afterbegin', languageP);
     body.insertAdjacentHTML('afterbegin', textarea);
 
+
     let initKeyboad = () => {
-        // const langKeys = isEng === 1 ? engKeys : rusKeys;
-        // languageHtml.innerText = isEng === 1 ? 'Eng' : 'Rus';
         let i = 0;
         let keyValue = '';
         keyboardKeys.forEach((el) => {
@@ -35,98 +36,126 @@ window.onload = function() {
 
 
 
-    var timeStamp = 0;
 
+    let element;
 
     document.addEventListener('keydown', (event) => {
-
         console.log("down", event);
-        let element = document.querySelector('div[data="' + `${event.keyCode}` + '"]');
+        if (event.code == "Tab") event.preventDefault();
+        if (event.code == "ShiftRight") element = document.querySelector('div[data="228"]');
+        else if (event.code == "ControlRight") element = document.querySelector('div[data="1337"]');
+        else if (event.code == "AltRight") element = document.querySelector('div[data="888"]');
+        else element = document.querySelector('div[data="' + `${event.keyCode}` + '"]');
 
-        if ((event.key == "Shift" && event.altKey) || (event.key == "Alt" && event.shiftKey)) {
-            let slovo = document.querySelector('div[data="81"]').innerHTML;
-            if (slovo == "q" || slovo == "Q")
-                keysContent(rusKeys);
-            else keysContent(engKeys);
-        } else {
+        element.classList.toggle('active');
 
-            element.classList.add('active');
+        switch (event.key) {
+            case 'Enter':
+                document.getElementById('text').value += '\n';
+                break;
+            case 'Tab':
+                document.getElementById('text').focus();
+                document.getElementById('text').value += '\t';
+                break;
+            case 'Meta':
+                document.getElementById('text').value += '';
+                break;
+            case 'Control':
+                document.getElementById('text').value += '';
+                break;
+            case 'Alt':
+                document.getElementById('text').value += '';
+                break;
+            case 'ArrowDown':
+                document.getElementById('text').value += '↓';
+                break;
+            case 'ArrowUp':
+                document.getElementById('text').value += '↑';
+                break;
+            case 'ArrowLeft':
+                document.getElementById('text').value += '←';
+                break;
+            case 'ArrowRight':
+                document.getElementById('text').value += '→';
+                break;
+            case 'CapsLock':
+                CapsLock();
 
-            switch (event.key) {
-                case 'ArrowDown':
-                    document.getElementById('text').value += '↓';
-                    break;
-                case 'ArrowUp':
-                    document.getElementById('text').value += '↑';
-                    break;
-                case 'ArrowLeft':
-                    document.getElementById('text').value += '←';
-                    break;
-                case 'ArrowRight':
-                    document.getElementById('text').value += '→';
-                    break;
-                case 'CapsLock':
+                break;
+            case 'Backspace':
 
+                backSpace();
+                break;
 
-                    break;
-                case 'Backspace':
+            case 'Shift':
+                Shift();
 
-                    backSpace();
-                    break;
+                break;
+            default:
 
-                case 'Shift':
-                    Shift();
-
-                    break;
-                default:
-
-                    document.getElementById('text').value += element.innerHTML;
-                    break;
-            }
+                document.getElementById('text').value += element.innerHTML;
+                break;
         }
+
 
     });
     document.addEventListener('keyup', (event) => {
 
         console.log("up", event);
 
-        let element = document.querySelector('div[data="' + `${event.keyCode}` + '"]');
+        if (event.code == "ShiftRight") element = document.querySelector('div[data="228"]');
+        else if (event.code == "ControlRight") element = document.querySelector('div[data="1337"]');
+        else if (event.code == "AltRight") element = document.querySelector('div[data="888"]');
+        else element = document.querySelector('div[data="' + `${event.keyCode}` + '"]');
+
         switch (event.key) {
+            case 'Alt':
+                element.classList.remove('active');
+                document.getElementById('text').value += '';
+                break;
             case 'ArrowDown':
+                element.classList.remove('active');
                 document.getElementById('text').value += '';
                 break;
             case 'ArrowUp':
+                element.classList.remove('active');
                 document.getElementById('text').value += '';
                 break;
             case 'ArrowLeft':
+                element.classList.remove('active');
                 document.getElementById('text').value += '';
                 break;
             case 'ArrowRight':
+                element.classList.remove('active');
                 document.getElementById('text').value += '';
                 break;
             case 'Backspace':
+                element.classList.remove('active');
                 break;
             case 'CapsLock':
-                CapsLock(element);
 
+
+                break;
+            case 'Tab':
+                element.classList.remove('active');
                 break;
             case 'Shift':
                 Shift();
-
+                element.classList.remove('active');
                 break;
             default:
                 console.log(event.key);
-
+                element.classList.remove('active');
                 break;
         }
 
 
 
-        element.classList.remove('active');
+
 
     });
 
-
+    var eventTarget = document.querySelector('div[data="81"]');
     /*-------------------------------Mouse------------------------------------------------ */
 
     document.addEventListener('mousedown', (event) => {
@@ -135,9 +164,26 @@ window.onload = function() {
         if (event.target.classList.value == "key-def" || event.target.classList.value == "key-def activeShift") {
             event.target.classList.add('active');
             console.log(event.target.innerHTML);
-
+            eventTarget = event.target;
             switch (event.target.innerHTML) {
+                case 'Enter':
+                    document.getElementById('text').value += '\n';
+                    break;
+                case 'Win':
 
+                    break;
+                case 'Tab':
+                    document.getElementById('text').value += '\t';
+                    break;
+                case 'Meta':
+                    document.getElementById('text').value += '';
+                    break;
+                case 'Ctrl':
+                    document.getElementById('text').value += '';
+                    break;
+                case 'Alt':
+                    document.getElementById('text').value += '';
+                    break;
                 case 'Backspace':
                     backSpace();
                     break;
@@ -149,10 +195,6 @@ window.onload = function() {
                     break;
 
                 case 'Caps Lock':
-                    console.log("dawdwa");
-
-                    CapsLock(event.target);
-
 
                     break;
                 default:
@@ -162,20 +204,18 @@ window.onload = function() {
                     break;
             }
 
-
-
-
         }
+
+
 
     });
 
-    event.target.addEventListener('mouseout', (event) => {
+    document.addEventListener('mouseup', () => {
 
-        switch (event.target.innerHTML) {
+        switch (eventTarget.innerHTML) {
 
             case 'Shift':
-
-
+                Shift();
 
                 break;
             default:
@@ -183,27 +223,9 @@ window.onload = function() {
                 break;
         }
 
-        event.target.classList.remove('active');
+        eventTarget.classList.remove('active');
+
     });
-
-    event.target.addEventListener('mouseup', (event) => {
-
-        switch (event.target.innerHTML) {
-
-            case 'Shift':
-
-
-                break;
-            default:
-
-                break;
-        }
-
-        event.target.classList.remove('active');
-    });
-
-
-
 
 
 
@@ -215,17 +237,27 @@ window.onload = function() {
     }
 
 
-    function CapsLock(element) {
-        const word = document.querySelector('div[data="65"]');
+    function CapsLock() {
+        const word = document.querySelector('div[data="65"]').innerHTML;
         console.log("word", word);
 
-        if (word.innerHTML == "A") {
-            keysContent(engKeys);
-            element.classList.remove('activeShift');
-        } else {
-            keysContent(engKeysUpperCase);
-            element.classList.add('activeShift');
+        switch (word) {
+            case "A":
+                keysContent(engKeys);
+                break;
+            case "a":
+                keysContent(engKeysUpperCase);
+                break;
+            case "Ф":
+                keysContent(rusKeys);
+                break;
+            case "ф":
+                keysContent(rusKeysUpperCase);
+                break;
+            default:
+                break;
         }
+
     }
 
     function Shift() {
@@ -257,6 +289,9 @@ window.onload = function() {
     const keys = document.querySelectorAll('#keyboard div');
     const keysContent = (langKeys) => {
             let i = 0;
+            if (langKeys == engKeysUpperCase || langKeys == engKeysShift || langKeys == engKeys)
+                localStorage.setItem('Lang', "eng");
+            else localStorage.setItem('Lang', "ru");
             keys.forEach((el) => {
                 el.innerText = langKeys[i];
                 i++;
@@ -264,28 +299,70 @@ window.onload = function() {
         }
         /*переключение языка*/
 
-    // document.onkeydown = function(e) {
-    //     console.log(e.keyCode);
+    const language = document.querySelector('.language');
+    document.addEventListener('keydown', (event) => {
 
+        if ((event.key == "Shift" && event.altKey) || (event.key == "Alt" && event.shiftKey)) {
+            let slovo = document.querySelector('div[data="81"]').innerHTML;
 
+            switch (slovo) {
+                case "q":
+                    language.textContent = "rus";
+                    keysContent(rusKeys);
+                    break;
+                case "Q":
+                    language.textContent = "rus";
+                    keysContent(rusKeysUpperCase);
+                    break;
 
-    //     if (e.shiftKey && e.altKey) {
-    //         let slovo = document.querySelector('div[data="81"]').innerHTML;
-    //         if (slovo == "q" || slovo == "Q")
-    //             keysContent(rusKeys);
-    //         else keysContent(engKeys);
+                case "й":
+                    language.textContent = "eng";
+                    keysContent(engKeys);
+                    break;
 
+                case "Й":
+                    language.textContent = "eng";
+                    keysContent(engKeysUpperCase);
+                    break;
 
-    //     } else
-    //     if (e.shiftKey) {
-    //         console.log(e);
-    //         Shift();
-    //     }
-    //     return true;
+                default:
+                    break;
+            }
+        }
 
-    // }
+    });
+    document.addEventListener('mouseup', (event) => {
 
+        if (event.target.innerHTML == "Win") {
+            let slovo = document.querySelector('div[data="81"]').innerHTML;
 
+            switch (slovo) {
+                case "q":
+                    language.textContent = "rus";
+                    keysContent(rusKeys);
+                    break;
+                case "Q":
+                    language.textContent = "rus";
+                    keysContent(rusKeysUpperCase);
+                    break;
+
+                case "й":
+                    language.textContent = "eng";
+
+                    keysContent(engKeys);
+                    break;
+
+                case "Й":
+                    language.textContent = "eng";
+                    keysContent(engKeysUpperCase);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+    });
 
 
     /* ************END*********** */

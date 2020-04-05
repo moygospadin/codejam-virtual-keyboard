@@ -37,7 +37,8 @@ textarea {
 .textarea {
     display: flex;
     align-items: center;
-    justify-content: center
+    justify-content: center;
+    -webkit-writing-mode: horizontal-tb !important;
 }
 
 .key-def {
@@ -86,6 +87,10 @@ div[data="32"] {
 }
 
 div[data="16"] {
+    width: 112px;
+}
+
+div[data="228"] {
     width: 112px;
 }
 
