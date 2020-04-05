@@ -6,12 +6,11 @@ textarea {
 
 .activeShift {
     background-color: aqua;
+    border: solid 1px red !important;
 }
 
 .active {
-    border: 1px solid red !important;
     background-color: aqua;
-    border-radius: 10px;
 }
 
 .language {
@@ -41,6 +40,13 @@ textarea {
     -webkit-writing-mode: horizontal-tb !important;
 }
 
+.alwaysshift {
+    position: absolute;
+    margin: 119px 0 0 86px;
+    border: none;
+    background: white;
+}
+
 .key-def {
     margin: 3px;
     width: 53px;
@@ -49,6 +55,8 @@ textarea {
     cursor: pointer;
     align-items: center;
     text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: box-shadow 0.3s, background-color 0.3s;
 }
 
 .unselectable {

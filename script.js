@@ -10,22 +10,33 @@ import {
 
 
 window.onload = function() {
+    console.log("Если ты посмотрел сюда то поставь пожалуйста 100 баллов :D");
 
     const textarea = '<div class="textarea"><textarea id="text" name="name" rows="8"  readonly cols="80"></textarea></div>';
     const keyboard = '<div id="keyboard"></div>';
     const languageP = '<p class="language">eng</p>';
     const body = document.querySelector('body');
-
     body.insertAdjacentHTML('afterbegin', keyboard);
     body.insertAdjacentHTML('afterbegin', languageP);
     body.insertAdjacentHTML('afterbegin', textarea);
-
-
+    const language = document.querySelector('.language');
+    const button = '<input type="button" class="alwaysshift" value="^">';
+    const info = '<p class="info">switch language shift+ctrl , win </p>';
+    body.insertAdjacentHTML("beforeend", info);
     let initKeyboad = () => {
+        let keysLang;
         let i = 0;
         let keyValue = '';
+        let llang = localStorage.getItem('Lang');
+        if (llang == "ru") {
+            keysLang = rusKeys;
+            language.textContent = "rus";
+        } else {
+            keysLang = engKeys;
+            language.textContent = "eng";
+        }
         keyboardKeys.forEach((el) => {
-            keyValue += `<div class="key-def" data=` + el + `>${engKeys[i]}</div>`;
+            keyValue += `<div class="key-def" data=` + el + `>${keysLang[i]}</div>`;
             i++;
         });
         document.getElementById('keyboard').innerHTML = keyValue;
@@ -33,14 +44,16 @@ window.onload = function() {
     }
     initKeyboad();
 
-
+    const shiftButton = document.querySelector('div[data="16"]');
+    shiftButton.insertAdjacentHTML("afterend", button);
 
 
 
     let element;
+    var CapsLockbool = true;
 
     document.addEventListener('keydown', (event) => {
-        console.log("down", event);
+
         if (event.code == "Tab") event.preventDefault();
         if (event.code == "ShiftRight") element = document.querySelector('div[data="228"]');
         else if (event.code == "ControlRight") element = document.querySelector('div[data="1337"]');
@@ -79,8 +92,11 @@ window.onload = function() {
                 document.getElementById('text').value += '→';
                 break;
             case 'CapsLock':
-                CapsLock();
-
+                if (CapsLockbool) {
+                    CapsLock();
+                    element.classList.toggle('activeShift');
+                    CapsLockbool = false;
+                }
                 break;
             case 'Backspace':
 
@@ -100,8 +116,6 @@ window.onload = function() {
 
     });
     document.addEventListener('keyup', (event) => {
-
-        console.log("up", event);
 
         if (event.code == "ShiftRight") element = document.querySelector('div[data="228"]');
         else if (event.code == "ControlRight") element = document.querySelector('div[data="1337"]');
@@ -133,7 +147,8 @@ window.onload = function() {
                 element.classList.remove('active');
                 break;
             case 'CapsLock':
-
+                element.classList.remove('active');
+                CapsLockbool = true;
 
                 break;
             case 'Tab':
@@ -144,7 +159,6 @@ window.onload = function() {
                 element.classList.remove('active');
                 break;
             default:
-                console.log(event.key);
                 element.classList.remove('active');
                 break;
         }
@@ -159,11 +173,14 @@ window.onload = function() {
     /*-------------------------------Mouse------------------------------------------------ */
 
     document.addEventListener('mousedown', (event) => {
-
+        if (event.target.classList.value == "alwaysshift" || event.target.classList.value == "alwaysshift activeShift") {
+            Shift();
+            event.target.classList.toggle('activeShift');
+        }
 
         if (event.target.classList.value == "key-def" || event.target.classList.value == "key-def activeShift") {
             event.target.classList.add('active');
-            console.log(event.target.innerHTML);
+
             eventTarget = event.target;
             switch (event.target.innerHTML) {
                 case 'Enter':
@@ -195,10 +212,11 @@ window.onload = function() {
                     break;
 
                 case 'Caps Lock':
-
+                    event.target.classList.toggle('activeShift');
+                    CapsLock();
                     break;
                 default:
-                    console.log(event.target);
+
                     document.getElementById('text').value += (event.target.innerHTML);
 
                     break;
@@ -239,8 +257,6 @@ window.onload = function() {
 
     function CapsLock() {
         const word = document.querySelector('div[data="65"]').innerHTML;
-        console.log("word", word);
-
         switch (word) {
             case "A":
                 keysContent(engKeys);
@@ -299,7 +315,7 @@ window.onload = function() {
         }
         /*переключение языка*/
 
-    const language = document.querySelector('.language');
+
     document.addEventListener('keydown', (event) => {
 
         if ((event.key == "Shift" && event.altKey) || (event.key == "Alt" && event.shiftKey)) {
