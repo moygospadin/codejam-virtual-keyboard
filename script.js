@@ -175,6 +175,7 @@ window.onload = function() {
     /*-------------------------------Mouse------------------------------------------------ */
 
     document.addEventListener('mousedown', (event) => {
+        eventTarget = event.target;
         if (event.target.classList.value == "alwaysshift" || event.target.classList.value == "alwaysshift activeShift") {
             Shift();
             event.target.classList.toggle('activeShift');
@@ -183,7 +184,7 @@ window.onload = function() {
         if (event.target.classList.value == "key-def" || event.target.classList.value == "key-def activeShift") {
             event.target.classList.add('active');
 
-            eventTarget = event.target;
+
             switch (event.target.innerHTML) {
                 case 'Enter':
                     document.getElementById('text').value += '\n';
