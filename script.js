@@ -21,7 +21,7 @@ window.onload = function() {
     body.insertAdjacentHTML('afterbegin', textarea);
     const language = document.querySelector('.language');
     const button = '<input type="button" class="alwaysshift" value="^">';
-    const info = '<p class="info">switch language shift+ctrl , win </p>';
+    const info = '<p class="info">switch language shift+alt , win </p>';
     body.insertAdjacentHTML("beforeend", info);
     let initKeyboad = () => {
         let keysLang;
