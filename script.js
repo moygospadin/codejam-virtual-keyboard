@@ -59,8 +59,8 @@ window.onload = function() {
         else if (event.code == "ControlRight") element = document.querySelector('div[data="1337"]');
         else if (event.code == "AltRight") element = document.querySelector('div[data="888"]');
         else element = document.querySelector('div[data="' + `${event.keyCode}` + '"]');
-
-        element.classList.toggle('active');
+        if (element)
+            element.classList.toggle('active');
 
         switch (event.key) {
             case 'AltGraph':
@@ -110,8 +110,8 @@ window.onload = function() {
 
                 break;
             default:
-
-                document.getElementById('text').value += element.innerHTML;
+                if (element)
+                    document.getElementById('text').value += element.innerHTML;
                 break;
         }
 
@@ -161,7 +161,8 @@ window.onload = function() {
                 element.classList.remove('active');
                 break;
             default:
-                element.classList.remove('active');
+                if (element)
+                    element.classList.remove('active');
                 break;
         }
 
